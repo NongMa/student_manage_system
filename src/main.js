@@ -11,6 +11,7 @@ import '@/common/scss/iconfont.scss'
 import locale from 'element-ui/lib/locale/lang/en' // lang i18n
 import '@/common/scss/index.scss' // global css
 import '@/mock/' // simulation data
+import '@/permission' // 导入控制权限
 
 Vue.use(ElementUI, { locale })
 Vue.config.productionTip = false

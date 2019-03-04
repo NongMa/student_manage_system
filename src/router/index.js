@@ -8,12 +8,12 @@ Vue.use(Router)
 const router = new Router({
   routes: [
     {
-      path: '/',
+      path: '/login',
       name: 'login',
       component: login
     },
     {
-      path: '/index',
+      path: '/',
       name: 'index',
       component: index,
       meta: {
