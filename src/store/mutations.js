@@ -5,7 +5,10 @@ export default {
   SET_NAME: (state, name) => {
     state.name = name
   },
-  SET_ROLES: (state, roles) => {
-    state.roles = roles
+  SET_TYPE: (state, type) => {
+    state.type = type
+  },
+  SET_PID: (state, pid) => {
+    state.pid = pid
   }
 }

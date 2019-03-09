@@ -1,6 +1,7 @@
-import { getToken } from '@/utils/auth'
+import { getToken, getType, getName, getPid } from '@/utils/auth'
 export default {
   token: getToken(),
-  name: '',
-  roles: []
+  name: getName(),
+  type: getType(),
+  pid: getPid()
 }

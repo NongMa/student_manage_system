@@ -8,31 +8,54 @@
           </el-form-item>
         </el-col>
       </el-row>
+      <el-row type="flex" justify="center" v-if="!haveAdmin">
+         <el-col :span="24">
+           <el-form-item>
+            <el-select class="typeSelect" size="small" v-model="loginForm.typeValue" placeholder="请选择账户类型">
+                <el-option
+                  v-for="item in types"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                  size="small" >
+                </el-option>
+              </el-select>
+            </el-form-item>
+         </el-col>
+      </el-row>
       <el-row type="flex" justify="center">
         <el-col :span="24">
           <el-form-item prop="username">
-            <el-input placeholder="请输入用户名" prefix-icon="el-icon-aliadmin" v-model="loginForm.username" size="small"></el-input>
+            <el-input placeholder="请输入用户名" suffix-icon="el-icon-aliadmin" v-model="loginForm.username" size="small"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
-       <el-row type="flex" v-if="!haveAdmin" justify="center">
-        <el-col :span="24">
-          <el-form-item prop="college">
-            <el-input placeholder="请输入所在学院" prefix-icon="el-icon-aliadmin" v-model="loginForm.college" size="small"></el-input>
-          </el-form-item>
-        </el-col>
+      <el-row type="flex" justify="center" v-if="!haveAdmin">
+          <el-col :span="24">
+            <el-form-item prop="college">
+              <el-select class="typeSelect" size="small" v-model="loginForm.college" placeholder="请选择学院">
+                <el-option
+                  v-for="item in colleges"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                  size="small" >
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
       </el-row>
       <el-row type="flex" v-if="!haveAdmin" justify="center">
         <el-col :span="24">
-          <el-form-item prop="class">
-            <el-input placeholder="请输入班级" prefix-icon="el-icon-aliadmin" v-model="loginForm.class" size="small"></el-input>
+          <el-form-item prop="sclass">
+            <el-input placeholder="请输入班级" suffix-icon="el-icon-aliadmin" v-model="loginForm.sclass" size="small"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row type="flex" justify="center">
          <el-col :span="24">
           <el-form-item prop="password">
-            <el-input placeholder="请输入密码" prefix-icon="el-icon-alipassword" :type="pwdType" @keyup.enter.native="submit" v-model="loginForm.password" size="small"></el-input>
+            <el-input placeholder="请输入密码" suffix-icon="el-icon-alipassword" :type="pwdType" @keyup.enter.native="submit" v-model="loginForm.password" size="small"></el-input>
           </el-form-item>
           </el-col>
       </el-row>
@@ -52,20 +75,12 @@
   </div>
 </template>
 <script>
-import { isvalidUsername } from '@/utils/validate'
 export default {
   name: 'login',
   data () {
     const validateUsername = (rule, value, callback) => {
-      if (!isvalidUsername(value)) {
+      if (value.length < 2) {
         callback(new Error('请输入正确的用户名'))
-      } else {
-        callback()
-      }
-    }
-    const validateCollege = (rule, value, callback) => {
-      if (value.length === 0) {
-        callback(new Error('学院不能为空'))
       } else {
         callback()
       }
@@ -85,19 +100,40 @@ export default {
       }
     }
     return {
+      types: [
+        {
+          value: 'student',
+          label: '学生'
+        },
+        {
+          value: 'teacher',
+          label: '老师'
+        }
+      ],
+      colleges: [
+        {
+          value: '理学院',
+          label: '理学院'
+        },
+        {
+          value: '工学院',
+          label: '工学院'
+        }
+      ],
       loginForm: {
         username: '',
         password: '',
         college: '',
-        class: ''
+        sclass: '',
+        typeValue: 'student'
       },
       pwdType: 'password',
       loading: false,
       loginRules: {
         username: [{ required: true, trigger: 'blur', validator: validateUsername }],
         password: [{ required: true, trigger: 'blur', validator: validatePass }],
-        college: [{ required: true, trigger: 'blur', validator: validateCollege }],
-        class: [{ required: true, trigger: 'blur', validator: validateClass }]
+        college: [{ required: true, trigger: 'change', message: '请选择学院' }],
+        sclass: [{ required: true, trigger: 'blur', validator: validateClass }]
       },
       login: '登录',
       regist: '注册',
@@ -117,29 +153,50 @@ export default {
   },
   methods: {
     submit: function () {
-      this.$refs.loginForm.validate(valid => {
-        if (valid) {
-          this.loading = true
-          this.$store.dispatch('Login', this.loginForm).then(() => {
-            this.loading = false
-            this.$router.push({ path: '/' })
-            console.log(this.$store.getters.token)
-          }).catch(() => {
-            this.loading = false
-          })
-        } else {
-          console.log('error submit!!')
-          return false
-        }
-      })
+      if (this.haveAdmin) {
+        this.$refs.loginForm.validate(valid => {
+          if (valid) {
+            this.loading = true
+            this.$store.dispatch('Login', this.loginForm).then(() => {
+              this.loading = false
+              if (this.$store.getters.type === 'student') {
+                this.$router.push({ path: '/student' })
+              } else if (this.$router.push({ path: '/teacher' })) {
+                this.$router.push({ path: '/student' })
+              }
+            }).catch(() => {
+              this.loading = false
+            })
+          } else {
+            console.log('error submit!!')
+            return false
+          }
+        })
+      } else {
+        this.$refs.loginForm.validate(valid => {
+          if (valid) {
+            this.loading = true
+            this.$store.dispatch('Register', this.loginForm).then(() => {
+              this.loading = false
+              this.haveAdmin = !this.haveAdmin
+              if (this.$store.getters.type === 'student') {
+                this.$router.push({ path: '/student' })
+              } else if (this.$router.push({ path: '/teacher' })) {
+                this.$router.push({ path: '/student' })
+              }
+            }).catch(() => {
+              this.loading = false
+            })
+          }
+        })
+      }
     },
-    register: function () {},
     changeLogin: function () {
       this.haveAdmin = !this.haveAdmin
       this.loginForm.username = ''
       this.loginForm.password = ''
       this.loginForm.college = ''
-      this.loginForm.class = ''
+      this.loginForm.sclass = ''
       this.loading = false
       this.$refs.loginForm.resetFields()
     }
@@ -151,7 +208,7 @@ export default {
     position: relative;
     width: 100vw;
     height: 100vh;
-    background-image: url(https://static.zhihu.com/heifetz/assets/sign_bg.db29b0fb.png);
+    background-image: url('~@/assets/bg.png');
     background-size: cover;
     .loginform {
         width: 250px;
@@ -169,6 +226,9 @@ export default {
     .loginOrRegister {
         color: #888;
         cursor: pointer;
+    }
+    .typeSelect {
+      width: 100%;
     }
   }
 </style>

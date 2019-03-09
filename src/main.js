@@ -7,12 +7,15 @@ import router from './router'
 import 'normalize.css/normalize.css' // A modern alternative to CSS resets
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
+import 'font-awesome/css/font-awesome.min.css'
 import '@/common/scss/iconfont.scss'
 import locale from 'element-ui/lib/locale/lang/en' // lang i18n
 import '@/common/scss/index.scss' // global css
 import '@/mock/' // simulation data
 import '@/permission' // 导入控制权限
+import CommonFooter from '@/components/footer/index'
 
+Vue.use(CommonFooter)
 Vue.use(ElementUI, { locale })
 Vue.config.productionTip = false
 

@@ -2,35 +2,30 @@
   <el-row class="header">
     <el-col :span="23">
       <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
-        <el-menu-item index="1">上传作业</el-menu-item>
-        <el-menu-item index="2">在线答题</el-menu-item>
+        <el-menu-item index="1"><router-link tag="li" :to="{path: '/table'}">发布题目</router-link></el-menu-item>
+        <el-menu-item index="2">审查题目</el-menu-item>
         <el-menu-item index="3">下载资料</el-menu-item>
-        <el-menu-item index="4">消息查询</el-menu-item>
+        <el-menu-item index="4">消息发布</el-menu-item>
       </el-menu>
     </el-col>
     <el-col :span="1" class="adminBox">
        <img :src="adminImg" @click="toogleAdminDet">
     </el-col>
-    <div class="adminDet" v-show="showAdmin">
-        <div class="adminDetContent">
-            <div>{{name}}</div>
-            <div>身份:{{idState}}</div>
-            <el-button type="primary" size="mini"  @click="loginOut">退出登录</el-button>
-        </div>
-    </div>
+    <show-info v-show="showAdmin"></show-info>
   </el-row>
 </template>
 <script>
 import admin from '@/assets/admin.png'
+import ShowInfo from '../commonViews/showInfo.vue'
 export default {
+  name: 'teacher-header',
   data () {
     return {
       adminImg: admin,
       activeIndex: '1',
       activeIndex2: '1',
       isStudent: true,
-      showAdmin: false,
-      name: '黄小琥'
+      showAdmin: false
     }
   },
   methods: {
@@ -39,17 +34,10 @@ export default {
     },
     toogleAdminDet () {
       this.showAdmin = !this.showAdmin
-    },
-    loginOut () {
-      this.$store.dispatch('FedLogOut').then(() => {
-        this.$router.push({ path: '/' })
-      })
     }
   },
-  computed: {
-    idState () {
-      return this.isStudent ? '学生' : '老师'
-    }
+  components: {
+    ShowInfo
   }
 }
 </script>

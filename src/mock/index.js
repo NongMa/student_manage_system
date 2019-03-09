@@ -15,10 +15,36 @@ Mock.XHR.prototype.send = function () {
 //   timeout: '350-600'
 // })
 
+// 注册数据
+let allData = {
+  type: {
+    student: [
+      {
+        username: 'admin',
+        password: 12345,
+        college: '理学院',
+        sclass: '信计1301班'
+      }
+    ],
+    teacher: [
+      {
+        username: 'admin',
+        password: 12345,
+        college: '理学院',
+        sclass: '信计1301班'
+      }
+    ]
+  }
+}
+
+window.localStorage.setItem('allDate', JSON.stringify(allData))
+
 // User
-Mock.mock(/\/user\/login/, 'post', userAPI.login)
-Mock.mock(/\/user\/info/, 'get', userAPI.getInfo)
-Mock.mock(/\/user\/logout/, 'post', userAPI.logout)
+
+Mock.mock('/userLogin.do', 'post', userAPI.login)
+Mock.mock('/getUserInfo.do', 'get', userAPI.getInfo)
+Mock.mock('/registerUser.do', 'post', userAPI.register)
+Mock.mock('/cancelUserInfo.do', 'post', userAPI.logout)
 
 // Table
 Mock.mock(/\/table\/list/, 'get', tableAPI.list)

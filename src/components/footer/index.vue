@@ -5,7 +5,7 @@
 </template>
 <script>
 export default {
-  name: 'footer',
+  name: 'common-footer',
   data () {
     return {
       msg: 'copyright 2019 by NongMa'

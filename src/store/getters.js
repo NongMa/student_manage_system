@@ -1,5 +1,6 @@
 export default {
   token: state => state.token,
-  roles: state => state.roles,
-  name: state => state.name
+  type: state => state.type,
+  name: state => state.name,
+  pid: state => state.pid
 }
