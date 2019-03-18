@@ -2,7 +2,7 @@
   <div class="main">
     <h3 class="form-h3">在线答题</h3>
     <el-form ref="answer" :model="answer">
-      <h4 class="form-h4">单选题：</h4>
+      <h4 v-if="answer.selectList.length>0" class="form-h4">单选题：</h4>
       <el-form-item
         class="select-item"
         v-for="(item,index) in answer.selectList"
@@ -18,7 +18,7 @@
             :label="item1" >{{item1}}</el-radio>
         </el-radio-group>    
       </el-form-item>
-      <h4 class="form-h4">简答题：</h4>
+      <h4 v-if="answer.singerList.length>0" class="form-h4">简答题：</h4>
       <el-form-item
         class="singer-item"
         v-for="(item,index) in answer.singerList"
@@ -28,17 +28,22 @@
         :prop="item.contentResult" >
         <el-input type="textarea" v-model="item.contentResult"></el-input>
       </el-form-item>
-      <el-form-item>
+      <el-form-item v-if="answer.selectList.length>0 && answer.singerList.length>0">
         <el-button style="width: 150px" type="primary" @click="submitForm('answer')">提交</el-button>
       </el-form-item>
     </el-form>
-  </div>
+    <div v-if="answer.selectList.length===0 || answer.singerList.length===0">
+      <img :src="imgUrl" alt="暂无题目">
+      <h4>暂无题目</h4>    
+      </div>
+  </div> 
 </template>
 
 <script>
+import imgUrl from '@/assets/testImg03.png'
 import StudentHeader from './header.vue'
 import CommonFooter from '@/components/footer/index.vue'
-import { studentGetQuestion, studentPostQuestion } from '@/api/api'
+import { studentGetQuestion, studentPostQuestion, getNewMsg } from '@/api/api'
 function autoSort(a, b){
   return Math.random() >= 0.5 ? 1 : -1
 }
@@ -50,6 +55,7 @@ export default {
         selectList: [],
         singerList: []
       },
+      imgUrl: imgUrl,
       rules: {   
         singer: [
           { required: true, message: '请输入答案', trigger: 'change' }
@@ -64,12 +70,29 @@ export default {
   },
   mounted () {
     this.getAllQuestion()
+    
+    if(!this.$store.state.haveOpened ) {
+       this.getNewMsg()   
+    }
   },
   components: {
     StudentHeader,
     CommonFooter
   },
   methods: {
+    getNewMsg () {
+      const params = {
+        token: this.$store.getters.token
+      }
+      getNewMsg(params).then(res=>{
+        console.log(res)
+        if (res.data.data === 'Y') {
+          this.$store.state.haveMessage = true
+          this.open()
+        } 
+        this.$store.state.haveOpened = true
+      })
+    },
     getAllQuestion () {
       let para = {
         token: this.$store.getters.token,
@@ -156,6 +179,16 @@ export default {
             type: "error"
           });
         }
+    },
+    open() {
+      const h = this.$createElement;
+      this.$notify({
+        type: 'info',
+        title: '消息提醒',
+        message: h('span', '你有新的消息，请前往消息中心查看详情'),
+        offset: 60
+      });
+      this.$store.state.haveMessage = false
     }
   }
 }

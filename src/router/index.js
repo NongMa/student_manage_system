@@ -29,7 +29,10 @@ const router = new Router({
       component: () => import('@/module/teacherViews/index.vue'),
       redirect: '/table',
       children: [
-        { path: '/table', component: () => import('@/module/teacherViews/Table.vue'), name: '题目中心', meta: { index: 1} },
+        { path: '/table', component: () => import('@/module/teacherViews/Table.vue'), name: '题目中心', type: 'table' },
+        { path: '/postMessage', component: () => import('@/module/teacherViews/postMessage.vue'), name: '消息中心', type: 'postMessage' },
+        { path: '/TeacherDownload', component: () => import('@/module/teacherViews/download.vue'), name: '下载学生作业', type: 'TeacherDownload' },
+        { path: '/homework', component: () => import('@/module/teacherViews/homework.vue'), name: '发布学生作业', type: 'homework' },
       ]
     },
   ]

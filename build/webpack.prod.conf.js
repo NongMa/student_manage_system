@@ -10,6 +10,18 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+// 配置地址
+const GeneraterAssetPlugin = require('generate-asset-webpack-plugin')
+const serverConfig = require('../serverConfig.json')
+const createJson = function(compilation) {
+  return JSON.stringify(serverConfig);
+};
+new GeneraterAssetPlugin({
+  filename: 'serverConfig.json',//输出到dist根目录下的serverConfig.json文件,名字可以按需改
+  fn: (compilation, cb) => {
+  cb(null, createJson(compilation));
+}
+})
 
 const env = process.env.NODE_ENV === 'testing'
   ? require('../config/test.env')

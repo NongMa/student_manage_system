@@ -1,11 +1,11 @@
 <template>
   <el-row class="header">
     <el-col :span="23">
-      <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
-        <el-menu-item index="1"><router-link tag="li" :to="{path: '/table'}">发布题目</router-link></el-menu-item>
-        <el-menu-item index="2">审查题目</el-menu-item>
-        <el-menu-item index="3">下载资料</el-menu-item>
-        <el-menu-item index="4">消息发布</el-menu-item>
+      <el-menu :default-active="$route.path" :router="true" class="el-menu-demo" mode="horizontal" @select="handleSelect">
+        <el-menu-item index="/table">发布题目</el-menu-item>
+        <el-menu-item index="/homework">上传资料</el-menu-item>
+        <el-menu-item index="/TeacherDownload">下载资料</el-menu-item>
+        <el-menu-item index="/postMessage">消息发布</el-menu-item>
       </el-menu>
     </el-col>
     <el-col :span="1" class="adminBox">

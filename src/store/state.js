@@ -1,7 +1,10 @@
-import { getToken, getType, getName, getPid } from '@/utils/auth'
+import { getToken, getType, getName, getPid, getPpur } from '@/utils/auth'
 export default {
   token: getToken(),
   name: getName(),
   type: getType(),
-  pid: getPid()
+  pid: getPid(),
+  ppur:  getPpur(),
+  haveMessage: false,
+  haveOpened: false,
 }

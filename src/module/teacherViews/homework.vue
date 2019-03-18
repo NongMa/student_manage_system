@@ -17,7 +17,7 @@
                 multiple>
                 <i class="el-icon-upload"></i>
                 <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
-                <div class="el-upload__tip" slot="tip">请上传你的作业，可选择word格式文档</div>
+                <div class="el-upload__tip" slot="tip">请发布你的作业，可选择word格式文档</div>
             </el-upload>
       
         </el-col>

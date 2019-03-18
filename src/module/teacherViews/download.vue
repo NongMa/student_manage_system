@@ -32,8 +32,8 @@
   </div>
 </template>
 <script>
-import imgurl from "@/assets/testImg02.jpg"
-import { getStudentFileList, uploadFile } from "@/api/api"
+import imgurl from "@/assets/testImg04.jpg"
+import { getTeacherFileList, uploadFile } from "@/api/api"
 import { HOST } from '@/api/config.js'
 export default {
   data() {
@@ -50,7 +50,7 @@ export default {
       const params = {
         token: this.$store.getters.token
       }
-      getStudentFileList(params).then(res=>{
+      getTeacherFileList(params).then(res=>{
         console.log(res.data.data)
         const list = res.data.data
         if (list.length > 0) {
@@ -101,7 +101,7 @@ export default {
 <style lang="scss" scoped>
 .main {
     .imgWrap {
-      width: 400px;
+      width: 160px;
       margin: 30px auto;
       overflow: hidden;
       img {

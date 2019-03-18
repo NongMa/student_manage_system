@@ -75,6 +75,7 @@
   </div>
 </template>
 <script>
+import bgImg from '@/assets/bg.png'
 export default {
   name: 'login',
   data () {

@@ -10,5 +10,8 @@ export default {
   },
   SET_PID: (state, pid) => {
     state.pid = pid
+  },
+  SET_PPUR: (state, ppur) => {
+    state.ppur = ppur
   }
 }

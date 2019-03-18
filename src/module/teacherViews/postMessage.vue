@@ -3,14 +3,12 @@
 		<!--工具条-->
 
 		<!--列表-->
-		<el-table :data="questionLists" highlight-current-row style="width: 100%;">
+		<el-table :data="messageLists" highlight-current-row style="width: 100%;">
 			<el-table-column type="index" width="60" label="序号">
 			</el-table-column>
-			<el-table-column prop="type" label="题目类型" width="180" sortable>
+			<el-table-column prop="title" label="消息标题" width="180" sortable>
 			</el-table-column>
 			<el-table-column prop="content" label="题目内容" sortable>
-			</el-table-column>
-			<el-table-column prop="score" label="分数" width="125" sortable>
 			</el-table-column>
 			<el-table-column label="操作" width="150">
 				<template slot-scope="scope">
@@ -23,32 +21,18 @@
 
 		<!--工具条-->
 		<el-col :span="24" class="toolbar" style="padding-bottom: 0px;text-align: right;padding-top:20px;">
-      <el-button type="primary" @click="handleAdd">新增内容</el-button>
+      <el-button type="primary" @click="handleAdd">新增消息</el-button>
 		</el-col>
 
 		<!--编辑界面-->
 		<el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible" :close-on-click-modal="false">
 			<el-form :model="editForm" label-width="80px" :rules="editFormRules" ref="editForm">
-        <el-form-item label="题目内容">
+        <el-form-item label="消息标题" prop="title">
+					<el-input type="textarea" v-model="editForm.title"></el-input>
+				</el-form-item>
+        <el-form-item label="消息内容" prop="content">
 					<el-input type="textarea" v-model="editForm.content"></el-input>
-				</el-form-item>
-        <el-form-item label="分数">
-					<el-input size="small" type="number" min="1" max="15" placeholder="请输入分数,区间1-15分，格式是数字" v-model="editForm.score"></el-input>
-				</el-form-item>
-				<el-form-item label="题目类型" v-show="isShowType" >
-					<el-radio-group v-model="editForm.type">
-						<el-radio class="radio" :label="1">选择题</el-radio>
-						<el-radio class="radio" :label="0">简答题</el-radio>
-					</el-radio-group>
-				</el-form-item>
-        <el-form-item label="正确选项" v-show="editForm.type">
-					<el-input size="small" style="margin-bottom: 5px" type="text" v-model="editForm.right"></el-input>
-				</el-form-item>
-				<el-form-item label="其它选项" v-show="editForm.type">   
-          <el-input size="small" style="margin-bottom: 5px" type="text" v-model="editForm.aswB"></el-input>
-          <el-input size="small" style="margin-bottom: 5px" type="text" v-model="editForm.aswC"></el-input>
-          <el-input size="small" style="margin-bottom: 5px" type="text" v-model="editForm.aswD"></el-input>
-				</el-form-item>
+				</el-form-item>  
 			</el-form>
       
 			<div slot="footer" class="dialog-footer">
@@ -64,7 +48,7 @@
 <script>
 import util from "@/common/js/util";
 //import NProgress from 'nprogress'
-import { getQuestionList, removeQuestion, editQuestion, addQuestion } from "@/api/api";
+import { getMessageList, removeMessage, editMessage, addMessage } from "@/api/api";
 
 export default {
   data() {
@@ -72,14 +56,14 @@ export default {
       dialogStatus: "",
       isShowType: true,
       textMap: {
-        update: "编辑题目",
-        create: "发布题目"
+        update: "编辑消息 ",
+        create: "发布消息"
       },
       dialogFormVisible: false,
       filters: {
         name: ""
       },
-      questionLists: [],
+      messageLists: [],
       total: 0,
       page: 1,
      // listLoading: false,v-loading="listLoading"
@@ -88,23 +72,20 @@ export default {
       //editFormVisible: false, //编辑界面是否显示
       //editLoading: false,
       editFormRules: {
-        name: [{ required: true, message: "请输入姓名", trigger: "blur" }]
+        title: [{ required: true, message: "请输入消息标题", trigger: "blur" }],
+        content: [{ required: true, message: "请输入消息内容", trigger: "blur" }]
       },
       //编辑界面数据
       editForm: {
         id: "0",
-        content: "",
-        score: '',
-        type: 0,
-        right: '',       
-        aswB: '',
-        aswC: '',
-        aswD: ''      
+        title: '',
+        content: "",    
       },
       addFormVisible: false, //新增界面是否显示
       //addLoading: false,
       addFormRules: {
-        name: [{ required: true, message: "请输入姓名", trigger: "blur" }]
+        title: [{ required: true, message: "请输入消息标题", trigger: "blur" }],
+        content: [{ required: true, message: "请输入消息内容", trigger: "blur" }]
       }
     };
   },
@@ -114,39 +95,26 @@ export default {
     }
   },
   methods: {
-    //性别显示转换
-    formatSex: function(row, column) {
-      return row.sex == 1 ? "男" : row.sex == 0 ? "女" : "未知";
-    },
-    handleCurrentChange(val) {
-      this.page = val;
-      this.getUsers();
-    },
+
     //获取用户列表
-    getQuestionList () {
+    getMessageList () {
       let para = {
-        eId: this.$store.getters.pid,
+        token: this.$store.getters.token,
       };
       //this.listLoading = true;
       //NProgress.start();
-      getQuestionList(para).then(res => {
+      getMessageList(para).then(res => {
         let data = res.data.data
-        let newArray = [];
-        console.log(res.data)
+        console.log(data)
         data.map((value,index)=>{
           let obj = {
-            type: value.t4 == 1 ? '单选题':'简答题',
-            content: value.eExer,
-            score: value.eFrac,
-            right: value.eAnsw,
-            aswB: value.t1,
-            aswC: value.t2,
-            aswD: value.t3,
-            autoColumn: value.autoColumn
+            title: data[index].t1,
+            content: data[index].mMess,
+            id: data[index].t2
           }
-          this.questionLists.push(obj)
+          this.messageLists.push(obj)
         })
-        console.log(this.questionLists)
+        console.log(this.messageLists)
         //this.listLoading = false;
         //NProgress.done();
       })
@@ -159,16 +127,16 @@ export default {
         .then(() => {
           //this.listLoading = true;
           //NProgress.start();
-          let para = { autoColumn: row.autoColumn }
-          removeQuestion(para).then(res => {
+          let para = { t2: row.id }
+          removeMessage(para).then(res => {
             //this.listLoading = false;
             //NProgress.done();
             this.$message({
               message: "删除成功",
               type: "success"
             });
-            this.questionLists = []
-            this.getQuestionList()
+            this.messageLists = []
+            this.getMessageList()
           })
         })
         .catch(() => {});
@@ -178,19 +146,12 @@ export default {
       this.editForm = Object.assign({}, row);
       this.dialogStatus = "update"
       this.dialogFormVisible = true
-      this.isShowType = false
-      if (row.type === '简答题') {
-        this.editForm.type = 0
-      } else {
-        this.editForm.type = 1
-      }
       //this.editFormVisible = true;
       
     },
     //显示新增界面
     handleAdd: function() {
       this.dialogStatus = "create"
-      this.isShowType = true
       //this.addFormVisible = true;
       this.dialogFormVisible = true
       this.editForm = {
@@ -211,24 +172,19 @@ export default {
               //this.editLoading = true;
               //NProgress.start();
               let data = Object.assign({}, this.editForm)
-              let reqData = {              
-                eExer: data.content,
-                eAnsw: data.right,
-                eFrac: data.score,
-                t1: data.aswB,
-                t2: data.aswC,
-                t3: data.aswD,
-                t4: data.type,
-                autoColumn: data.autoColumn
+              let reqData = {
+                mMess: data.content,
+                t2:  data.id,
+                t1: data.title
               }
-              editQuestion(reqData).then(res => {      
+              editMessage(reqData).then(res => {      
                 this.$message({
                   message: "提交成功",
                   type: "success"
                 });
                 this.dialogFormVisible = false; 
-                this.questionLists = []
-                this.getQuestionList()
+                this.messageLists = []
+                this.getMessageList()
                 this.$refs["editForm"].resetFields();  
                           
               });
@@ -252,21 +208,12 @@ export default {
               this.editForm.id = (parseInt(Math.random() * 100)).toString() // mock a id
               let data = Object.assign({}, this.editForm)
               let reqData = {
-                token: this.$store.getters.token,
-                type: this.$store.getters.type,
-                list: [{
-                  eId: this.$store.getters.pid,
-                  eExer: data.content,
-                  eAnsw: data.right,
-                  eFrac: data.score,
-                  t1: data.aswB,
-                  t2: data.aswC,
-                  t3: data.aswD,
-                  t4: data.type
-                }]
+                mId: this.$store.getters.pid,
+                mMess: data.content,
+                mPur:  this.$store.getters.ppur,
+                t1: data.title
               }
-              console.log(reqData)
-              addQuestion(reqData).then(res => {
+              addMessage(reqData).then(res => {
                 //this.addLoading = false;
                 //NProgress.done();
                 this.$message({
@@ -276,8 +223,8 @@ export default {
                 this.$refs["editForm"].resetFields();
                 this.dialogFormVisible = false;
                 //this.addFormVisible = false;
-                this.questionLists = []
-                this.getQuestionList()
+                this.messageLists = []
+                this.getMessageList()
               });
             })
             .catch(e => {
@@ -289,7 +236,7 @@ export default {
     }
   },
   mounted() {
-    this.getQuestionList();
+    this.getMessageList()
   }
 };
 </script>

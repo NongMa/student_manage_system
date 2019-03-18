@@ -12,7 +12,7 @@
           <el-menu-item index="/answer">在线答题</el-menu-item>
           <el-menu-item index="/upload">上传作业</el-menu-item>
           <el-menu-item index="/download">下载资料</el-menu-item>
-          <el-menu-item index="/message">消息查询</el-menu-item>
+          <el-menu-item index="/message">消息中心</el-menu-item>
         </el-menu>
       </el-col>
       <el-col :span="1" class="adminBox">

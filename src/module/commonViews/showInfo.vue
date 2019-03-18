@@ -1,7 +1,7 @@
 <template>
     <div class="adminDet">
         <div class="adminDetContent">
-            <p style="font-size: 14px;"><span>账户名：s</span>{{getName}}</p>
+            <p style="font-size: 14px;"><span>账户名：</span>{{getName}}</p>
             <p style="font-size: 14px;"><span>身份：</span>{{idState}}</p>
             <el-button type="primary" size="mini"  @click="loginOut">退出登录</el-button>
         </div>

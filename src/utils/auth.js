@@ -4,6 +4,7 @@ const TokenKey = 'token'
 const TypeKey = 'type'
 const NameKey = 'name'
 const PidKey = 'pid'
+const PpurKey = 'ppur'
 
 export function getToken () {
   return Cookies.get(TokenKey)
@@ -51,4 +52,16 @@ export function setPid (pid) {
 
 export function removePid () {
   return Cookies.remove(PidKey)
+}
+
+export function getPpur () {
+  return Cookies.get(PpurKey)
+}
+
+export function setPpur (ppur) {
+  return Cookies.set(PpurKey, ppur)
+}
+
+export function removePpur () {
+  return Cookies.remove(PpurKey)
 }
