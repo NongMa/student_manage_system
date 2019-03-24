@@ -7,4 +7,5 @@ export default {
   ppur:  getPpur(),
   haveMessage: false,
   haveOpened: false,
+  isCollapse: false,
 }

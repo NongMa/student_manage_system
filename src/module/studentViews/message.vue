@@ -1,5 +1,5 @@
 <template>
-  <div class="main">
+  <div class="content">
     <h2>消息列表</h2>
     <el-collapse @change="handleChange" style="text-align: left;" v-if="messagesList.length>0">
       <el-collapse-item v-for="item in messagesList"  :key="item.id" :title="item.title" :name="item.id">
@@ -62,7 +62,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-  .main {
+  .content {
     h2 {
       padding: 30px 40px;
     }

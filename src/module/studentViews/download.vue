@@ -1,5 +1,5 @@
 <template>
-  <div class="main">
+  <div class="content">
     <div class="imgWrap">
        <img :src="imgUrl" alt="下载页面">
     </div>
@@ -99,7 +99,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.main {
+.content {
     .imgWrap {
       width: 400px;
       margin: 30px auto;

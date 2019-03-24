@@ -1,5 +1,5 @@
 <template>
-  <div class="main">
+  <div class="content">
     <div class="imgWrap">
       <img ref="imgHeight" :src="imgUrl" alt="图片介绍">
     </div>
@@ -72,7 +72,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-  .main {
+  .content {
     .imgWrap {
       width: 400px;
       margin: 10px auto;

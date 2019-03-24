@@ -1,13 +1,12 @@
 import router from './router'
 import store from './store'
-import NProgress from 'nprogress' // Progress 进度条
-import 'nprogress/nprogress.css'// Progress 进度条样式
-// import { Message } from 'element-ui'
+// import NProgress from 'nprogress' // Progress 进度条
+// import 'nprogress/nprogress.css'// Progress 进度条样式
 import { getToken } from '@/utils/auth' // 验权
 
 const whiteList = ['/login'] // 不重定向白名单
 router.beforeEach((to, from, next) => {
-  NProgress.start()
+  // NProgress.start()
   if (getToken()) {
     if (to.path === '/login') {
       if (store.getters.type === 'student') {
@@ -15,7 +14,7 @@ router.beforeEach((to, from, next) => {
       } else if (store.getters.type === 'teacher') {
         next({ path: '/teacher' })
       }
-      NProgress.done() // if current page is dashboard will not trigger  afterEach hook, so manually handle it
+    //  NProgress.done() // if current page is dashboard will not trigger  afterEach hook, so manually handle it
     } else {
       if (store.getters.type === 'student') {
         next()

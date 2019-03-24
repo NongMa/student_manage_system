@@ -35,6 +35,11 @@ const router = new Router({
         { path: '/homework', component: () => import('@/module/teacherViews/homework.vue'), name: '发布学生作业', type: 'homework' },
       ]
     },
+    {
+      path: '*',
+      name: 'notfount',
+      component: () => import('@/components/404.vue')
+    }
   ]
 })
 export default router

@@ -1,5 +1,5 @@
 <template>
-  <div class="main">
+  <div class="content">
     <h3 class="form-h3">在线答题</h3>
     <el-form ref="answer" :model="answer">
       <h4 v-if="answer.selectList.length>0" class="form-h4">单选题：</h4>
@@ -196,14 +196,14 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
-    .main {
-      min-height: calc( 100vh - 130px);
+    .content {
       .form-h3 {
-        font-size: 36px;
-        margin: 50px 0 30px;
+        font-size: 30px;
+        margin: 30px 0 30px;
       }
       .form-h4 {
         text-align: left;
+        margin: 10px 0;
       }
     }
 </style>

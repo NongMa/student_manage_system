@@ -1,5 +1,5 @@
 <template>
-	<section class="main">
+	<section class="content">
 		<!--工具条-->
 
 		<!--列表-->
@@ -295,8 +295,5 @@ export default {
 </script>
 
 <style scoped>
-  .main {
-    width: 80%;
-    margin: 20px auto;
-  }
+
 </style>

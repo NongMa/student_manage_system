@@ -35,21 +35,26 @@ export default {
 </script>
 <style lang="scss" scoped>
     .adminDet {
-        background-color: #f3f3f3;
-        padding: 30px 15px;
-        box-shadow: 0 0 5px #888;
-        position: absolute;
-        top: 60px;
-        right: 2.5rem;
-        z-index: 99999;
-        .adminDetContent {
-            div {
-                text-align: left;
-                margin-bottom: 10px;
-                &:last-child {
-                    margin-bottom: 30px;
-                }
-            }
+      position: absolute;
+      top: 50px;
+      right: 20px;
+      padding: 20px 10px;
+      margin: 5px 0;
+      background-color: #fff;
+      border: 1px solid #ebeef5;
+      border-radius: 4px;
+      -webkit-box-shadow: 0 2px 12px 0 rgba(0,0,0,.1);
+      box-shadow: 0 2px 12px 0 rgba(0,0,0,.1);
+      z-index: 9999;
+
+      .adminDetContent {
+        div {
+          text-align: left;
+          margin-bottom: 10px;
+          &:last-child {
+            margin-bottom: 30px;
+          }
         }
+      }
     }
 </style>
