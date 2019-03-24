@@ -122,14 +122,14 @@ export default {
       this.page = val;
       this.getUsers();
     },
-    //获取用户列表
+    //获取题目列表
     getQuestionList () {
-      let para = {
+      let param = {
         eId: this.$store.getters.pid,
       };
       //this.listLoading = true;
       //NProgress.start();
-      getQuestionList(para).then(res => {
+      getQuestionList(param).then(res => {
         let data = res.data.data
         let newArray = [];
         console.log(res.data)

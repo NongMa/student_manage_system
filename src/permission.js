@@ -11,7 +11,7 @@ router.beforeEach((to, from, next) => {
     if (to.path === '/') {
       if (store.getters.type === 'student') {
         next({ path: '/student' }) 
-      } else {
+      } else if (store.getters.type === 'teacher') {
         next({ path: '/teacher' }) 
       }
     }
@@ -21,18 +21,10 @@ router.beforeEach((to, from, next) => {
       } else if (store.getters.type === 'teacher') {
         next({ path: '/teacher' })
       }
-    //  NProgress.done() // if current page is dashboard will not trigger  afterEach hook, so manually handle it
+    // NProgress.done() // if current page is dashboard will not trigger  afterEach hook, so manually handle it
     } else {
       if (store.getters.type === 'student') {
         next()
-        // store.dispatch('GetInfo').then(res => { // 拉取用户信息
-        //   // next()
-        // }).catch((err) => {
-        //   store.dispatch('FedLogOut').then(() => {
-        //     Message.error(err || 'Verification failed, please login again')
-        //     next({ path: '/' })
-        //   })
-        // })
       } else {
         next()
       }
@@ -42,11 +34,11 @@ router.beforeEach((to, from, next) => {
       next()
     } else {
       next('/login')
-      NProgress.done()
+      // NProgress.done()
     }
   }
 })
 
 router.afterEach(() => {
-  NProgress.done() // 结束Progress
+  // NProgress.done() // 结束Progress
 })

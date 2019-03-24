@@ -7,19 +7,19 @@
           :collapse="isCollapse"
           class="el-menu-vertical-demo"
           @select="handleSelect"
-          :router="true"
+          router 
           :show-timeout="100"
           background-color="#304156"
           text-color="#bfcbd9"
-          active-text-color="#409EFF">
-          <el-menu-item class="el-menu-item" index="/table">
-            <i class="el-icon-document"></i>
-            <span slot="title">发布题目</span>
-          </el-menu-item >
-          <el-menu-item class="el-menu-item" index="/homework">
-            <i class="el-icon-upload2"></i>
-            <span slot="title">上传资料</span>
-          </el-menu-item>
+          active-text-color="#409EFF">     
+          <el-submenu>
+            <template slot="title">
+              <i class="el-icon-document"></i>
+              <span>作业中心</span>
+            </template>   
+            <el-menu-item index="/table">发布题目</el-menu-item>
+            <el-menu-item index="/homework">上传资料</el-menu-item>    
+          </el-submenu>
           <el-menu-item class="el-menu-item" index="/TeacherDownload">
             <i class="el-icon-download"></i>
             <span slot="title">下载资料</span>
@@ -89,6 +89,9 @@ export default {
     }
     .el-menu-vertical-demo:not(.el-menu--collapse) {
       width: 180px;
+    }
+    .el-submenu .el-menu-item {
+      min-width: 180px;
     }
   }
 

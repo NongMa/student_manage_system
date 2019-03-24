@@ -48,7 +48,7 @@
       <el-row type="flex" v-if="!haveAdmin" justify="center">
         <el-col :span="24">
           <el-form-item prop="sclass">
-            <el-input placeholder="请输入班级" suffix-icon="el-icon-aliadmin" v-model="loginForm.sclass" size="small"></el-input>
+            <el-input placeholder="请输入班级" suffix-icon="el-icon-star-off" v-model="loginForm.sclass" size="small"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
