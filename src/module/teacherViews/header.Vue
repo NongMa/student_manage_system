@@ -7,7 +7,7 @@
           :collapse="isCollapse"
           class="el-menu-vertical-demo"
           @select="handleSelect"
-          router 
+          :router="true"
           :show-timeout="100"
           background-color="#304156"
           text-color="#bfcbd9"
