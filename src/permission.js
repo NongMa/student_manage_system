@@ -8,6 +8,13 @@ const whiteList = ['/login'] // 不重定向白名单
 router.beforeEach((to, from, next) => {
   // NProgress.start()
   if (getToken()) {
+    if (to.path === '/') {
+      if (store.getters.type === 'student') {
+        next({ path: '/student' }) 
+      } else {
+        next({ path: '/teacher' }) 
+      }
+    }
     if (to.path === '/login') {
       if (store.getters.type === 'student') {
         next({ path: '/student' })
